@@ -1,16 +1,8 @@
-# source
 lib
-tests
 index.ts
 package-lock.json
-tslint.json
 tsconfig.json
-.prettierrc
-
-# github
-.github
-CONTRIBUTING.md
-renovate.json
-
-# ci
-.circleci
+tsconfig.build.json
+nest-cli.json
+LICENSE
+.eslintrc.js

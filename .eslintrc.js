@@ -5,23 +5,18 @@ module.exports = {
     sourceType: 'module',
   },
   plugins: ['@typescript-eslint/eslint-plugin'],
-  extends: [
-    'plugin:@typescript-eslint/eslint-recommended',
-    'plugin:@typescript-eslint/recommended',
-    'prettier',
-    'prettier/@typescript-eslint',
-  ],
+  extends: ['airbnb-typescript/base'],
   root: true,
   env: {
     node: true,
     jest: true,
   },
+  ignorePatterns: ['.eslintrc.js'],
   rules: {
-    '@typescript-eslint/interface-name-prefix': 'off',
-    '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/no-explicit-any': 'off',
-    '@typescript-eslint/no-use-before-define': 'off',
-    '@typescript-eslint/no-non-null-assertion': 'off',
-    '@typescript-eslint/explicit-module-boundary-types': 'off'
-  },
+    'import/prefer-default-export': 0,
+    'no-param-reassign': 0,
+    'no-restricted-syntax': 0,
+    'no-console': 0,
+    'class-methods-use-this': 0
+  }
 };

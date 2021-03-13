@@ -1,26 +1,26 @@
 import { DynamicModule, Module } from '@nestjs/common';
 import { DiscoveryModule } from '@nestjs/core';
-import { EventEmitter2 } from 'eventemitter2';
+import { NodeRedisPubSub } from 'node-redis-pubsub';
 import { EventSubscribersLoader } from './event-subscribers.loader';
 import { EventsMetadataAccessor } from './events-metadata.accessor';
-import { EventEmitterModuleOptions } from './interfaces';
+import { RedisEventEmitterModuleOptions } from './interfaces';
 
 @Module({})
-export class EventEmitterModule {
-  static forRoot(options?: EventEmitterModuleOptions): DynamicModule {
+export class RedisEventEmitterModule {
+  static forRoot(options?: RedisEventEmitterModuleOptions): DynamicModule {
     return {
       global: options?.global ?? true,
-      module: EventEmitterModule,
+      module: RedisEventEmitterModule,
       imports: [DiscoveryModule],
       providers: [
         EventSubscribersLoader,
         EventsMetadataAccessor,
         {
-          provide: EventEmitter2,
-          useValue: new EventEmitter2(options),
+          provide: NodeRedisPubSub,
+          useValue: new NodeRedisPubSub(options),
         },
       ],
-      exports: [EventEmitter2],
+      exports: [NodeRedisPubSub],
     };
   }
 }

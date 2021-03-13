@@ -1,3 +1,3 @@
-export { EventEmitter2 } from 'eventemitter2';
+export { NodeRedisPubSub } from 'node-redis-pubsub';
 export * from './decorators';
 export * from './event-emitter.module';

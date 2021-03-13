@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { DiscoveryService, MetadataScanner } from '@nestjs/core';
 import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
-import { EventEmitter2 } from 'eventemitter2';
+import { NodeRedisPubSub } from 'node-redis-pubsub';
 import { EventsMetadataAccessor } from './events-metadata.accessor';
 
 @Injectable()
@@ -13,7 +13,7 @@ export class EventSubscribersLoader
   implements OnApplicationBootstrap, OnApplicationShutdown {
   constructor(
     private readonly discoveryService: DiscoveryService,
-    private readonly eventEmitter: EventEmitter2,
+    private readonly nrp: NodeRedisPubSub,
     private readonly metadataAccessor: EventsMetadataAccessor,
     private readonly metadataScanner: MetadataScanner,
   ) {}
@@ -23,7 +23,7 @@ export class EventSubscribersLoader
   }
 
   onApplicationShutdown() {
-    this.eventEmitter.removeAllListeners();
+    this.nrp.quit();
   }
 
   loadEventListeners() {
@@ -55,11 +55,11 @@ export class EventSubscribersLoader
     if (!eventListenerMetadata) {
       return;
     }
-    const { event, options } = eventListenerMetadata;
-    this.eventEmitter.on(
+    const { event } = eventListenerMetadata;
+
+    this.nrp.on(
       event,
       (...args: unknown[]) => instance[methodKey].call(instance, ...args),
-      options,
     );
   }
 }
